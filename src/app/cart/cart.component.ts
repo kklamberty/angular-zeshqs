@@ -8,16 +8,29 @@ import { CartService } from '../cart.service';
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.css']
 })
-export class CartComponent implements OnInit {
+export class CartComponent {
   items;
+  checkoutForm;
 
   constructor(
     private cartService: CartService,
     private formBuilder: FormBuilder,
-  ) { }
-
-  ngOnInit() {
+  ) {
     this.items = this.cartService.getItems();
+  
+    this.checkoutForm = this.formBuilder.group({
+      name: '',
+      address: ''
+    });
+   }
+
+  onSubmit(customerData) {
+    // Process checkout data here
+    console.warn('Your order has been submitted', customerData);
+
+    //In a real-world app, this method also would submit the data to an external server
+    this.items = this.cartService.clearCart();
+    this.checkoutForm.reset();
   }
 
 }
